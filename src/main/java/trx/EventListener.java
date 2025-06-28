@@ -43,33 +43,17 @@ public class EventListener extends ListenerAdapter {
 				return;
 			}
 
-			event.reply("Hitelesítés sikeres!").queue();
-
-			PluginNotifier.notifyAuthSuccess(uuid);
-
 			var components = event.getMessage().getActionRows();
 //			components.stream().map(x -> x.)
 			event.getMessage().editMessageComponents(components);
 
-/*			List<ActionRow> updatedRows = event.getMessage().getActionRows().stream()
-					.map(row -> {
-						var updatedButtons = row.getComponents().stream()
-								.map(component -> {
-									if (component instanceof Button button && button.getId() != null && button.getId().equals(id)) {
-										return button.asDisabled();
-									}
-									return component;
-								})
-								.toList();
-						return ActionRow.of(updatedButtons);
-					})
-					.collect(Collectors.toList());
-
-			event.getMessage().editMessageComponents(updatedRows).queue();*/
-
 			event.getMessage().editMessageComponents(
 					List.of(ActionRow.of(event.getButton().asDisabled()))
 			).complete();
+
+			event.getMessage().reply("Hitelesítés sikeres!").queue();
+
+			PluginNotifier.notifyAuthSuccess(uuid);
 		}
 	}
 }
