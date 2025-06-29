@@ -17,7 +17,7 @@ public class Database {
 		var dotenv = Dotenv.load();
 		USERS = new HashMap<>();
 		var userId = Long.parseLong(dotenv.get("DISCORD_USER_ID"));
-		var playerUuid = dotenv.get("PLAYER_UUIDn");
+		var playerUuid = dotenv.get("PLAYER_UUID");
 		USERS.put(playerUuid,  userId);
 	}
 
