@@ -1,4 +1,4 @@
-package trx;
+package trx.discordauthbot;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -9,19 +9,15 @@ import trx.discordauth.socketcomm.bot.PluginNotifier;
 import java.time.Instant;
 
 /**
- * A plugintól érkező parancsok fogadása
+ * A plugintól érkező parancsok fogadásához való funkcionalitás
+ * Az itt lévő metódusok a különböző parancsokkor esedékes tennivalókat írják le
  */
 @Slf4j
 public class PluginReceiver {
-	private final JDA jda;
-
-	public PluginReceiver(JDA jda) {
-		this.jda = jda;
-	}
 
 	/**
 	 * Üzenet küldése a felhasználónak:
-	 * A plugin továbbengedte a sikeres hitelesítés hírére
+	 * A plugin hitelesítési kérést küldött, és el kell küldeni a hitelesítési gombos üzenetet a felhasználónak
 	 * @param jda JDA példány a játékos lekérdezésére ID alapján
 	 * @param uuid játékos UUID
 	 */
@@ -35,7 +31,8 @@ public class PluginReceiver {
 			if (user != null) {
 				log.info("Discord felhasználó létezik, ID: " + discordId.get());
 				user.openPrivateChannel()
-						.flatMap(channel -> channel.sendMessage("A Minecraft szerveren való belépéshez kattints a gombra!")
+						.flatMap(channel -> channel
+								.sendMessage("A Minecraft szerveren való belépéshez kattints a gombra!")
 								.addActionRow(Button.success(
 										String.format("verify:%s:%d", uuid, Instant.now().getEpochSecond()),
 										"✅ Hitelesítem magam")))
@@ -51,13 +48,15 @@ public class PluginReceiver {
 	 * Üzenet küldése a felhasználónak:
 	 * A plugin továbbengedte a sikeres hitelesítés hírére
 	 * @param jda JDA példány a játékos lekérdezésére ID alapján
+	 *            A Discord felhasználó már biztosan létezik ekkor
 	 * @param uuid játékos UUID
 	 */
 	public static void sendLoginConfirmedMessage(JDA jda, String uuid) {
 		var discordId = Database.getUserDiscordID(uuid);
 		User user = jda.retrieveUserById(discordId.get()).complete();
 		user.openPrivateChannel()
-				.flatMap(channel -> channel.sendMessage("✅ Hitelesítés sikeres, jó játékot!"))
+				.flatMap(channel -> channel
+						.sendMessage("✅ Hitelesítés sikeres, jó játékot!"))
 				.queue();
 	}
 }

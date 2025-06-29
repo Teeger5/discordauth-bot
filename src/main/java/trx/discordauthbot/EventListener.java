@@ -1,4 +1,4 @@
-package trx;
+package trx.discordauthbot;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -10,11 +10,21 @@ import trx.discordauth.socketcomm.bot.PluginNotifier;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * Eseménykezelők vannak itt
+ */
 @Slf4j
 public class EventListener extends ListenerAdapter {
+
+	/**
+	 * A hitelesítési gombra kattintás eseménye
+	 * - Ha a beállított határidőn túli, akkor azt jelezni kell, és gomb színe piros + letiltva
+	 * - Ha rendben van, akkor plugin értesítése, gomb színe szürke + letiltva
+	 * @param event az esemény adatai
+	 */
 	@Override
 	public void onButtonInteraction(ButtonInteractionEvent event) {
-		String id = event.getComponentId();
+		var id = event.getComponentId();
 
 		log.debug("Hitelesítési gombnyomás, gomb ID: " + event.getId());
 
@@ -38,18 +48,12 @@ public class EventListener extends ListenerAdapter {
 				event.getMessage().reply("A hitelesítés időtúllépés miatt nem sikerült. A gomb csak 1 percen át érvényes.")
 						.queue();
 
-				// notify timeout
-
 				return;
 			}
 
-			var components = event.getMessage().getActionRows();
-//			components.stream().map(x -> x.)
-			event.getMessage().editMessageComponents(components);
-
 			event.getMessage().editMessageComponents(
 					List.of(ActionRow.of(event.getButton().asDisabled()))
-			).complete();
+			).queue();
 
 			event.getMessage().reply("Hitelesítés sikeres!").queue();
 

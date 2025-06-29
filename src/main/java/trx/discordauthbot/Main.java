@@ -1,4 +1,4 @@
-package trx;
+package trx.discordauthbot;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +31,11 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Plugin felől érkező parancsokra történő műveletek beállítása
+	 * @param jda JDA példány
+	 * @return az elkészült Receiver példány
+	 */
 	private static Receiver initReceiver(JDA jda) {
 		var receiver = new Receiver();
 

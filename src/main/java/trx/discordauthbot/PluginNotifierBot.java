@@ -1,4 +1,4 @@
-package trx;
+package trx.discordauthbot;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
+ * Ez az osztály mostmár a pluginban van
  * Üzenetek küldése a Spigot pluginnak
  */
 @Slf4j
@@ -48,7 +49,7 @@ public class PluginNotifierBot {
 		try (Socket socket = new Socket(DotenvValues.PLUGIN_HOST,  DotenvValues.PLUGIN_PORT);
 		     PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true)) {
 
-			var message = String.format("%s,%d", command, uuid);
+			var message = String.format("%s,%s", command, uuid);
 			out.println(message);
 			log.debug("Hitelesítés sikeres üzenet elküldve a plugin-nak: " + message);
 		} catch (Exception e) {

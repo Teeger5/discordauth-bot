@@ -1,4 +1,4 @@
-package trx;
+package trx.discordauthbot;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,12 @@ public class DotenvValues {
 	public static String PLUGIN_HOST = "localhost";
 	public static int PLUGIN_PORT = 25567;
 	public static int AUTH_TIMEOUT_SECONDS = 120;
+
+	/**
+	 * Dotenv változók betöltése, és az értékek statikus változókhoz rendelése
+	 * Emellett beállítja a PLUGIN_HOST és PLUGIN_PORT helyi környezeti változókat is,
+	 * ami a szökséges üzenetek küldéséhez
+	 */
 
 	public static void init () {
 		var dotenv = Dotenv.load();
